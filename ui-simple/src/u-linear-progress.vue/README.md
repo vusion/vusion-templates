@@ -4,5 +4,5 @@
 ### Basic
 
 ``` html
-<u-linear-progress :percent="36"></u-linear-progress>
+<u-linear-progress :percent="30"></u-linear-progress>
 ```
