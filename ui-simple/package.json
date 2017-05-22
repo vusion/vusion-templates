@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "u-base.vue": "^0.1.0",
+    "vue": "^2.3.0"
+  }
+}
