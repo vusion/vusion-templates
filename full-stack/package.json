@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "vue": "^2.4.0"
+  },
+  "vusion": {
+      "type": "full-stack"
+  }
+}

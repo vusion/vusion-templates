@@ -1,5 +1,5 @@
-<template lang="html">
-<div>
+<template>
+<div :class="$style.root">
     <u-button>Hello World</u-button>
 </div>
 </template>
@@ -14,5 +14,9 @@ export default {
 };
 </script>
 
-<style lang="css">
+<style module>
+$height: 15px;
+.root {
+    height: calc($height - 5px);
+}
 </style>
