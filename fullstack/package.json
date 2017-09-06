@@ -1,9 +1,9 @@
 {
-  "name": "vkoa",
+  "name": "vukoa",
   "version": "0.1.0",
   "private": true,
   "vusion": {
-      "type": "full-stack"
+      "type": "fullstack"
   },
   "scripts": {
     "start": "node cli.js app",
