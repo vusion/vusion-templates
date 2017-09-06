@@ -9,7 +9,7 @@ import Button from 'u-button.vue';
 
 export default {
     components: {
-        [Button.options.name]: Button,
+        [Button.name]: Button,
     },
 };
 </script>
