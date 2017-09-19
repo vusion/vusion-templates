@@ -4,5 +4,9 @@ module.exports = {
         entry: {
             bundle: './src/index.js',
         },
+    },
+    webpackDevServer:{
+    	contentBase: __dirname,
+    	publicPath: "/public/"
     }
 }
