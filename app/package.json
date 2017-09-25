@@ -1,7 +1,15 @@
 {
+  "name": "vusion-app",
+  "private": true,
   "dependencies": {
-    "u-base.vue": "^0.2.0",
-    "u-button.vue": "^0.2.0",
-    "vue": "^2.4.0"
+    "cloud-ui.vusion": "~0.1.0",
+    "vue": "^2.4.0",
+    "vue-router": "^2.7.0"
+  },
+  "devDependencies": {
+    "babel-preset-env": "^1.6.0",
+    "eslint": "^4.3.0",
+    "eslint-config-vusion": "^1.2.0",
+    "html-loader": "^0.5.1"
   }
 }

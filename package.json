@@ -8,5 +8,6 @@
     "eslint-plugin-vue": "^3.13.0",
     "husky": "^0.13.3",
     "vusion-hooks": "^0.1.0"
-  }
+  },
+  "dependencies": {}
 }
