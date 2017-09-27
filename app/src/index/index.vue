@@ -2,7 +2,12 @@
 <div :class="$style.root">
     <header :class="$style.head">
         <div :class="$style.wrap">
-            <slot name="head"></slot>
+            <u-navbar>
+                <u-logo slot="left"></u-logo>
+                <u-navbar-item selected>首页</u-navbar-item>
+                <u-navbar-item>链接1</u-navbar-item>
+                <u-navbar-item>链接2</u-navbar-item>
+            </u-navbar>
         </div>
     </header>
     <main :class="$style.body">
