@@ -1,5 +1,5 @@
 const path = require('path');
-const HtmlWebpackPlugin = global.plugins.HtmlWebpackPlugin;
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
     version: '^0.5.0',
