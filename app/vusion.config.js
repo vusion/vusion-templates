@@ -1,10 +1,8 @@
-const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
     version: '^0.5.0',
     type: 'app',
-    uglifyJS: true,
     extractCSS: true,
     webpack: {
         entry: {
