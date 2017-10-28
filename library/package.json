@@ -1,6 +1,8 @@
 {
   "dependencies": {
-    "u-base.vue": "^0.1.0",
+    "u-base.vue": "^0.1.0"
+  },
+  "devDependencies": {
     "vue": "^2.3.0"
   },
   "vusion": {
