@@ -1,6 +1,6 @@
 'use strict';
 
-module.exports = function initialize(type, port) {
+module.exports = function initialize() {
     return Promise.resolve();
 };
 

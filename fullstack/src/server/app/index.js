@@ -15,14 +15,13 @@ const config = require('../config');
 const log = logger.createLogger('app');
 
 // middlewares
-const staticFile = require('koa-static');
+const staticFile = require('../utils/koa-static-redirect');
 const render = require('koa-ejs');
 const requestLogger = require('./middleware/requestLogger');
 const router = require('./middleware/router');
 const auth = require('./middleware/auth');
 const body = require('koa-better-body');
 const validate = require('koa-validate');
-const cors = require('kcors');
 const initialize = require('../config/initialize');
 
 module.exports = (options) => {
@@ -38,15 +37,17 @@ module.exports = (options) => {
     app.use(requestLogger());
     // 视图引擎
     render(app, {
-        root: path.resolve(__dirname, '../../public'),
+        root: path.resolve(__dirname, '../../client/pages'),
         layout: false,
         viewExt: 'ejs',
         cache: false,
         debug: true,
     });
-
     // 静态文件处理
-    app.use(staticFile(path.resolve(__dirname, '../../public')));
+    app.use(staticFile({
+        realDir: path.resolve(__dirname, '../../../public'),
+        redirectPath: '/public',
+    }));
 
     // 加载自定义中间件
     (options.middlewares || []).forEach((middleware) => {
@@ -97,14 +98,6 @@ module.exports = (options) => {
 
     // 路由
     router(app, options);
-    const type = options.type;
-    return initialize(type, port).then(() => new Promise((resolve, reject) => {
-        app.listen(port, (err) => {
-            if (err)
-                return reject(err);
 
-            log.info(`Server listen on ${port}`);
-            resolve(app);
-        });
-    }));
-};
+    return app;
+}
