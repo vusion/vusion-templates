@@ -3,3 +3,6 @@ node_modules/
 npm-debug.log
 bundle.js*
 .idea/
+
+yarn.lock
+package-lock.json

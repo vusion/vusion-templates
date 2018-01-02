@@ -4,6 +4,7 @@ module.exports = {
     version: '^0.5.0',
     type: 'app',
     extractCSS: true,
+    uglifyJS: true,
     webpack: {
         entry: {
             index: './src/index/index.js',

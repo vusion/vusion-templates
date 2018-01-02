@@ -1,8 +1,5 @@
 {
-    "extends": [
-        "vusion",
-        "plugin:vue/recommended"
-    ],
+    "extends": "vusion/all",
     "env": {
         "browser": true,
         "node": true

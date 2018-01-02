@@ -3,9 +3,8 @@
     "precommit": "bash node_modules/vusion-hooks/pre-commit"
   },
   "devDependencies": {
-    "eslint": "^4.6.1",
-    "eslint-config-vusion": "^1.2.0",
-    "eslint-plugin-vue": "^3.13.0",
+    "eslint": "^4.13.1",
+    "eslint-config-vusion": "^2.0.0",
     "husky": "^0.13.3",
     "vusion-hooks": "^0.1.0"
   },
