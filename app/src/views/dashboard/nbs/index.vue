@@ -34,6 +34,9 @@
         </u-capsules>
     </u-form-item>
     <u-form-item>
+        <u-summary-card>Test</u-summary-card>
+    </u-form-item>
+    <u-form-item>
         <u-button color="primary">立即创建</u-button>
     </u-form-item>
 </u-form>
@@ -50,10 +53,10 @@ export default {
                 name: '',
                 scope: '',
                 ssdType: 'C_SSD',
-            }
-        }
-    }
-}
+            },
+        };
+    },
+};
 </script>
 
 <style scoped>

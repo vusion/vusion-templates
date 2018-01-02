@@ -1,21 +1,24 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-    version: '^0.5.0',
+    version: '^0.5.6',
     type: 'app',
     extractCSS: true,
     uglifyJS: true,
+    docs: true,
+    libraryPath: './src/library',
+    globalCSSPath: './src/library/base/global.css',
     webpack: {
         entry: {
-            index: './src/index/index.js',
-            dashboard: './src/dashboard/index.js',
-            login: './src/login/index.js',
+            index: './src/views/index/index.js',
+            dashboard: './src/views/dashboard/index.js',
+            login: './src/views/login/index.js',
         },
         plugins: [
             'EXTENDS',
-            new HtmlWebpackPlugin({ filename: 'index.html', hash: true, template: './src/index/index.html', chunks: ['index'] }),
-            new HtmlWebpackPlugin({ filename: 'dashboard.html', hash: true, template: './src/dashboard/index.html', chunks: ['dashboard'] }),
-            new HtmlWebpackPlugin({ filename: 'login.html', hash: true, template: './src/login/index.html', chunks: ['login'] }),
+            new HtmlWebpackPlugin({ filename: 'index.html', hash: true, template: './src/views/index/index.html', chunks: ['index'] }),
+            new HtmlWebpackPlugin({ filename: 'dashboard.html', hash: true, template: './src/views/dashboard/index.html', chunks: ['dashboard'] }),
+            new HtmlWebpackPlugin({ filename: 'login.html', hash: true, template: './src/views/login/index.html', chunks: ['login'] }),
         ],
     },
 };
