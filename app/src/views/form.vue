@@ -1,5 +1,5 @@
 <template>
-<u-form gap="large">
+<u-form :class="$style.root" gap="large">
     <u-form-item label="计费方式" required>
         <u-radios v-model="model.chargeType">
             <u-radio label="0">包年包月</u-radio>
@@ -34,9 +34,6 @@
         </u-capsules>
     </u-form-item>
     <u-form-item>
-        <u-summary-card>Test</u-summary-card>
-    </u-form-item>
-    <u-form-item>
         <u-button color="primary">立即创建</u-button>
     </u-form-item>
 </u-form>
@@ -59,6 +56,11 @@ export default {
 };
 </script>
 
-<style scoped>
-.test {}
+<style module>
+.root {
+    width: 1180px;
+    margin: 0 auto;
+    padding: 40px;
+}
 </style>
+
