@@ -7,6 +7,7 @@ module.exports = {
     uglifyJS: true,
     docs: true,
     libraryPath: './src/library',
+    baseCSSPath: './src/library/base/base.css',
     globalCSSPath: './src/library/base/global.css',
     webpack: {
         entry: {
