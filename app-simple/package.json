@@ -1,7 +1,0 @@
-{
-  "dependencies": {
-    "u-base.vue": "^0.2.0",
-    "u-button.vue": "^0.2.0",
-    "vue": "^2.4.0"
-  }
-}
