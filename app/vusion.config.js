@@ -2,13 +2,11 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-    version: '^0.5.6',
+    version: '>=0.6.0',
     type: 'app',
     extractCSS: true,
     staticPath: './static',
     libraryPath: './src/components',
-    baseCSSPath: './src/components/base/base.css',
-    globalCSSPath: './src/components/base/global.css',
     webpack: {
         entry: {
             vendor: 'babel-polyfill',

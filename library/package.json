@@ -14,8 +14,7 @@
     "vue": "^2.5.0"
   },
   "vusion": {
-    "type": "library",
-    "baseCSSPath": "./src/base/base.css",
-    "globalCSSPath": "./src/base/global.css"
+    "version": ">=0.6.0",
+    "type": "library"
   }
 }
