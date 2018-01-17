@@ -2,7 +2,7 @@
 <section :class="$style.banner">
     <div :class="$style.bannerContent">
         <h1 :class="$style.heading">Hello World！</h1>
-        <h2 :class="$style.subtitle">Welcome to Your Vusion App</h2>
+        <h2 :class="$style.subtitle">Welcome to Vusion App</h2>
     </div>
 </section>
 </template>

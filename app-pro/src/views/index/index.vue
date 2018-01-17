@@ -14,7 +14,7 @@
         <section :class="$style.banner">
             <div :class="$style.bannerContent">
                 <h1 :class="$style.heading">Hello World！</h1>
-                <h2 :class="$style.subtitle">Welcome to Your Vusion App</h2>
+                <h2 :class="$style.subtitle">Welcome to Vusion App</h2>
             </div>
         </section>
     </main>
@@ -32,7 +32,7 @@ export default {};
     right: 0;
     left: 0;
     height: 68px;
-    background: #1ba67e;
+    background: $brand-primary;
     color: white;
     box-shadow: 0 3px 4px rgba(0,0,0,0.1);
     padding: 0 10px;
