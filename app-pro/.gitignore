@@ -3,6 +3,7 @@ node_modules/
 npm-debug.log
 
 public/
+test-reports/
 
 yarn.lock
 package-lock.json
