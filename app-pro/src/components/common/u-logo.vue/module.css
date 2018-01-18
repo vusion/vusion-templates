@@ -1,7 +1,9 @@
 .root {
     display: inline-block;
     width: 200px;
-    height: 68px;
-    background: url('./logo.png') no-repeat;
+    height: 64px;
+    margin-top: 1px;
+    height: 64px;
+    background: url('./logo.svg') no-repeat;
     background-size: contain;
 }
