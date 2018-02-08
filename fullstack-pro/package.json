@@ -1,0 +1,57 @@
+{
+  "name": "vukoa",
+  "version": "0.1.0",
+  "private": true,
+  "vusion": {
+      "type": "fullstack"
+  },
+  "scripts": {
+    "start": "node cli.js app",
+    "api": "node cli.js api",
+    "test": "mocha server/tests/unit/**/test-*.js"
+  },
+  "dependencies": {
+    "vue": "^2.4.0",
+    "bluebird": "^3.5.0",
+    "bookshelf": "^0.10.0",
+    "chalk": "^2.0.1",
+    "commander": "^2.11.0",
+    "core-js": "^2.4.1",
+    "debug": "^2.6.3",
+    "es6-promise": "^4.1.1",
+    "fs-extra": "^4.0.0",
+    "koa-bodyparser": "^3.2.0",
+    "koa-convert": "^1.2.0",
+    "koa-json": "^2.0.2",
+    "koa-logger": "^2.0.1",
+    "koa-onerror": "^1.2.1",
+    "koa-views": "^5.2.1",
+    "knex": "^0.11.9",
+    "koa": "^1.2.1",
+    "koa-better-body": "^2.0.1",
+    "koa-send": "^3.3.0",
+    "koa-ejs": "^3.0.0",
+    "koa-generic-session": "^1.10.2",
+    "koa-router": "^5.4.0",
+    "koa-static": "^2.0.0",
+    "koa-validate": "^1.0.4",
+    "moment": "^2.18.1",
+    "node-schedule": "^1.2.3",
+    "path-to-regexp": "^1.7.0",
+    "pug": "^2.0.0-rc.1",
+    "request": "^2.81.0",
+    "request-promise": "^4.2.1"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-eslint": "^7.2.3",
+    "eslint": "^4.5.0",
+    "eslint-config-vusion": "^2.0.0",
+    "eslint-plugin-html": "^3.2.0",
+    "html-webpack-plugin": "^2.30.1",
+    "husky": "^0.14.3",
+    "nodemon": "^1.8.1",
+    "vusion-hooks": "^0.1.1",
+    "webpack": "^3.5.5"
+  }
+}
