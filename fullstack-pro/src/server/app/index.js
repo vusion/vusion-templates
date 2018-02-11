@@ -37,9 +37,10 @@ module.exports = (options) => {
     app.use(requestLogger());
     // 视图引擎
     render(app, {
-        root: path.resolve(__dirname, '../../client/pages'),
+        // root: path.resolve(__dirname, '../../client/pages'),
+        root: path.resolve(__dirname, '../../../public'),
         layout: false,
-        viewExt: 'ejs',
+        viewExt: 'html',
         cache: false,
         debug: true,
     });

@@ -1,9 +1,22 @@
 <template>
 <div :class="$style.root">
-    <main :class="$style.body">
-        <div>
-            <h2>Welcome to Vukoa 模板</h2>
+    <header :class="$style.head">
+        <div :class="$style.wrap">
+            <u-logo :class="$style.left"></u-logo>
+            <u-navbar :class="$style.right">
+                <u-navbar-item href="/dashboard">Dashboard</u-navbar-item>
+                <u-navbar-item href="https://vusion.github.io" target="_blank">文档</u-navbar-item>
+                <u-navbar-item href="https://github.com/vusion" target="_blank">GitHub</u-navbar-item>
+            </u-navbar>
         </div>
+    </header>
+    <main :class="$style.body">
+        <section :class="$style.banner">
+            <div :class="$style.bannerContent">
+                <h1 :class="$style.heading">Hello World！</h1>
+                <h2 :class="$style.subtitle">Welcome to Vusion App</h2>
+            </div>
+        </section>
     </main>
 </div>
 </template>
@@ -64,5 +77,4 @@ export default {};
     margin: 0;
 }
 </style>
-
 

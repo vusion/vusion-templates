@@ -3,7 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
     type: 'app',
-    libraryPath: 'src/client/library.js',
+    libraryPath: 'src/client/components/',
     assetsPath: 'src/client/static/',
     docs: false,
     // docs: process.env.NODE_ENV === 'development',
@@ -11,7 +11,11 @@ module.exports = {
     webpack: {
         entry: {
             EXTENDS: true,
-            bundle: './src/client/index.js',
+            /*bundle: './src/client/index.js',*/
+            vendor: 'babel-polyfill',
+            index: './src/client/views/index/index.js',
+            dashboard: './src/client/views/dashboard/index.js',
+            login: './src/client/views/login/index.js',
         },
         output: {
             path: path.resolve(__dirname, 'public'),
@@ -30,10 +34,15 @@ module.exports = {
                 root: path.join(__dirname, './src/client'),
             },
         },
-        plugins: ['EXTENDS', new HtmlWebpackPlugin()],
-    },
+        plugins: [/*'EXTENDS',*/ /*new HtmlWebpackPlugin(),*/
+            new HtmlWebpackPlugin({ filename: 'index.html', hash: true, template: './src/client/views/index/index.html', chunks: ['vendor', 'index'] }),
+            new HtmlWebpackPlugin({ filename: 'dashboard.html', hash: true, template: './src/client/views/dashboard/index.html', chunks: ['vendor', 'dashboard'] }),
+            new HtmlWebpackPlugin({ filename: 'login.html', hash: true, template: './src/client/views/login/index.html', chunks: ['vendor', 'login'] }),
+        ],},
+
+
     webpackDevServer: {
-        host: 'http://local.163.com',
+        host: 'http://localhost',
         // proxy: {
         //     context: ['/**'],
         //     target: 'http://local.163.com:8000',
