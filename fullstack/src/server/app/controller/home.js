@@ -1,14 +1,8 @@
-/**
- * HomeController
- * 默认控制器
- */
 
-'use strict';
 
-class HomeController {
-    static *index(next) {
-        yield this.render('index');
-        yield next;
-    }
-}
-module.exports = HomeController;
+module.exports = {
+    // 首页
+    async page(ctx) {
+        await ctx.render('index');
+    },
+};
