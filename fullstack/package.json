@@ -60,7 +60,7 @@
     "vue": "^2.4.0",
     "vue-router": "^3.0.0",
     "vuex": "^3.0.1",
-    "xlsx": "^0.12.5",
+    "xlsx": "^0.12.5"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
