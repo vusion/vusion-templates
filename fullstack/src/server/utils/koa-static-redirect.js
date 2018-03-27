@@ -16,30 +16,32 @@ module.exports = function (opts) {
     if (typeof options.realDir !== 'string')
         throw Error('realDir must be specified');
 
-    return function*(next) {
-        let path = this.path;
+    return async (ctx, next) => {
+        let path = ctx.path;
+        console.log('path is', path, 'option is' , options.redirectPath);
         if (!options.redirectPath) {
             log && console.log(new Date().toISOString(), path);
-            const sent = yield send(this, path, options);
+            const sent = await send(ctx, path, options);
             if (sent)
                 return;
             else
-                return yield* next;
+                return next();
         }
         if (path.indexOf(options.redirectPath) !== 0)
-            return yield* next;
+            return next();
 
         if (path === options.redirectPath)
-            return this.redirect(normalize(options.redirectPath + '/'));
+            return ctx.redirect(normalize(options.redirectPath + ''));
 
-        if (options.redirectPath)
-            path = normalize(path.replace(options.redirectPath, '/'));
+        if (options.redirectPath){
+            path = normalize(path.replace(options.redirectPath, ''));
+        }
 
         log && console.log(new Date().toISOString(), path);
-        const sent = yield send(this, path, options);
+        const sent = await send(ctx, path, options);
         if (sent)
             return null;
         else
-            return yield* next;
+            return next();
     };
 };

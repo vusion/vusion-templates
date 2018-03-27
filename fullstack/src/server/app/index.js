@@ -1,103 +1,74 @@
-/**
- * 应用程序入口
+/* 应用程序入口
+ * @Author: hzlinguanfu
+ * @Date: 2018-01-09 14:15:04
+ * @Last Modified by: xuefei
+ * @Last Modified time: 2018-03-13 22:18:50
  */
 
-'use strict';
+// 将.env中配置到环境变量
+require('../../config');
 
-const Promise = require('bluebird');
-const os = require('os');
+// middleware文件夹
+const bodyParsePatch = require('./middleware/bodyParsePatch');
+const handleCustomCode = require('./middleware/handleCustomCode');
+const bunyanLogger = require('koa2-better-bunyan-logger');
+// 项目内部其他
+const staticFile = require('../utils/koa-static-redirect.js');
+const log = require('../utils/logger').createLogger('app');
+const routers = require('../routers/index');
 const path = require('path');
-const fs = Promise.promisifyAll(require('fs-extra'));
 const Koa = require('koa');
-
-const logger = require('../utils/logger');
-const config = require('../config');
-const log = logger.createLogger('app');
-
-// middlewares
-const staticFile = require('../utils/koa-static-redirect');
-const render = require('koa-ejs');
-const requestLogger = require('./middleware/requestLogger');
-const router = require('./middleware/router');
-const auth = require('./middleware/auth');
+const config = require('config');
+const views = require('koa-views');
 const body = require('koa-better-body');
 const validate = require('koa-validate');
-const initialize = require('../config/initialize');
+const convert = require('koa-convert');
+const debug = require('debug')('vukoa:server:app');
 
 module.exports = (options) => {
+// 应用配置
     const app = new Koa();
-    const port = options.port || 5000;
-
-    // 应用配置
     app.name = config.name;
     app.keys = config.keys;
-    app.proxy = true;
 
-    // 请求日志记录
-    app.use(requestLogger());
-    // 视图引擎
-    render(app, {
-        root: path.resolve(__dirname, '../../client/pages'),
-        layout: false,
-        viewExt: 'ejs',
-        cache: false,
-        debug: true,
-    });
-    // 静态文件处理
-    app.use(staticFile({
-        realDir: path.resolve(__dirname, '../../../public'),
-        redirectPath: '/public',
+    // 日志
+    app.use(bunyanLogger({
+        name: 'vukoa',
     }));
+    app.use(bunyanLogger.requestIdContext());
+    app.use(bunyanLogger.requestLogger());
 
-    // 加载自定义中间件
-    (options.middlewares || []).forEach((middleware) => {
-        const mwpath = path.resolve(__dirname, `./middleware/${middleware}.js`);
-        log.info(`Loading user middleware from "${mwpath}"`);
-        let mw = null;
-        try {
-            mw = require(mwpath);
-        } catch (e) {
-            log.error(e);
-        }
-        mw && app.use(mw(options));
-    });
-
-    // 请求正文解析
-    app.use(body({
+    // 配置控制台日志中间件
+    // 正文解析
+    app.use(convert(body({
         multipart: true,
         keepExtensions: true,
         strict: false,
-    }));
+    })));
+    // 加载正文解析优化中间件
+    app.use(bodyParsePatch());
 
-    app.use(function *bodyParsePatch(next) {
-        this.errors = [];
-        if (!this.request.body)
-            this.request.body = {};
-
-        if (!this.request.fields)
-            this.request.fields = {};
-
-        this.request.body.fields = this.request.fields;
-        this.request.body.files = this.request.fields.files;
-        const tasks = [];
-        if (this.request.body.fields.files) {
-            for (const fileField in this.request.body.files) {
-                const file = this.request.body.files[fileField];
-                const ext = path.extname(file.name);
-                const newName = file.name.replace(new RegExp(`${ext}$`), ext.toLowerCase());
-                if (newName !== file.name)
-                    file.name = newName;
-            }
-            delete this.request.body.fields.files;
-        }
-        yield next;
-    });
 
     // 参数验证
     validate(app);
 
-    // 路由
-    router(app, options);
+    // 加载静态文件
+    log.info('加载静态文件，路径=>' + path.resolve(__dirname, './../../../public'));
+    app.use(staticFile({
+        realDir: path.resolve(__dirname, '../../../public/'),
+        redirectPath: '/public/',
+    }));
+    // 加载ejs模板
+    log.info('加载ejs模板,路径=>' + path.resolve(__dirname, './../../client/pages'));
+    app.use(views(path.resolve(__dirname, './../../client/pages'), {
+        extension: 'ejs',
+    }));
 
+    // 定义code方法
+    handleCustomCode(app);
+    // 路由解析
+    log.info('开始路由解析');
+    app.use(routers.routes()).use(routers.allowedMethods());
+    log.info('服务器启动');
     return app;
-}
+};

@@ -6,8 +6,10 @@ module.exports = {
     libraryPath: 'src/client/components/',
     assetsPath: 'src/client/static/',
     docs: false,
+    uglifyJS: true,
     // docs: process.env.NODE_ENV === 'development',
     extractCSS: true,
+    sourceMap: false,
     webpack: {
         entry: {
             EXTENDS: true,
@@ -33,10 +35,10 @@ module.exports = {
         plugins: ['EXTENDS', new HtmlWebpackPlugin()],
     },
     webpackDevServer: {
-        host: 'http://local.163.com',
+        host: 'http://localhost.com',
         // proxy: {
         //     context: ['/**'],
-        //     target: 'http://local.163.com:8000',
+        //     target: 'http://localhost.com:8000',
         // },
         // port: 8000,
         publicPath: '/public/',
