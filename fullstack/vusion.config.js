@@ -3,7 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
     type: 'app',
-    libraryPath: 'src/client/library.js',
+    libraryPath: 'src/client/components/',
     assetsPath: 'src/client/static/',
     docs: false,
     // docs: process.env.NODE_ENV === 'development',
@@ -11,7 +11,7 @@ module.exports = {
     webpack: {
         entry: {
             EXTENDS: true,
-            bundle: './src/client/index.js',
+            bundle: './src/client/views/index.js',
         },
         output: {
             path: path.resolve(__dirname, 'public'),
