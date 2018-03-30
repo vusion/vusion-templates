@@ -9,8 +9,7 @@ installComponents(Components, Vue);
 import routes from './routes';
 
 new Vue({
-    el: '#app',
     router: new VueRouter({
         routes,
     }),
-});
+}).$mount('#app');

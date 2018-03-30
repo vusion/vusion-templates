@@ -3,17 +3,18 @@
   "version": "0.1.0",
   "private": true,
   "vusion": {
-      "type": "fullstack"
+    "type": "fullstack"
   },
   "scripts": {
     "start": "node cli.js app",
     "api": "node cli.js api",
-    "test": "mocha server/tests/unit/**/test-*.js"
+    "test": "mocha server/tests/unit/**/test-*.js",
+    "dll": "webpack --config webpack.dll.config.js"
   },
   "dependencies": {
-    "vue": "^2.4.0",
-    "cloud-ui.vusion": "~0.2.0",
     "babel-polyfill": "^6.26.0",
+    "vue": "^2.4.0",
+    "cloud-ui.vusion": "~0.2.18",
     "vue-router": "^3.0.0",
     "vusion-utils": "^0.1.0",
     "bluebird": "^3.5.0",
@@ -44,21 +45,25 @@
     "path-to-regexp": "^1.7.0",
     "pug": "^2.0.0-rc.1",
     "request": "^2.81.0",
-    "request-promise": "^4.2.1"
+    "request-promise": "^4.2.1",
+    "whatwg-fetch": "^2.0.3"
   },
   "devDependencies": {
     "babel-plugin-istanbul": "^4.1.5",
     "babel-preset-env": "^1.6.0",
     "babel-preset-stage-2": "^6.24.1",
+    "copy-webpack-plugin": "^4.5.1",
     "babel-core": "^6.26.0",
     "babel-eslint": "^7.2.3",
     "eslint": "^4.5.0",
     "eslint-config-vusion": "^2.0.0",
     "eslint-plugin-html": "^3.2.0",
-    "html-webpack-plugin": "^2.30.1",
+    "html-webpack-include-assets-plugin": "^1.0.4",
+    "html-webpack-plugin": "^3.0.7",
     "husky": "^0.14.3",
     "nodemon": "^1.8.1",
     "vusion-hooks": "^0.1.1",
-    "webpack": "^3.5.5"
+    "underscore-template-loader": "^0.8.0",
+    "webpack": "^3.11.0"
   }
 }

@@ -1,38 +1,56 @@
 const path = require('path');
+const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+const HtmlWebpackIncludeAssetsPlugin = require('html-webpack-include-assets-plugin');
 
 module.exports = {
     type: 'app',
-    libraryPath: 'src/client/components/',
-    assetsPath: 'src/client/static/',
+    staticPath: 'src/client/static/',
     docs: false,
+    clean: false,   //dev时不删除public文件
     uglifyJS: true,
-    // docs: process.env.NODE_ENV === 'development',
     extractCSS: true,
     sourceMap: false,
+    libraryPath: 'src/client/components/',
     webpack: {
         entry: {
-            EXTENDS: true,
-            bundle: './src/client/views/index.js',
+            bundle: ['babel-polyfill', 'whatwg-fetch', './src/client/views/index.js'],
         },
         output: {
             path: path.resolve(__dirname, 'public'),
             publicPath: '/public/',
-            filename: '[name].js',
-            chunkFilename: 'chunk-[name]-[chunkhash].js',
         },
         resolve: {
-            EXTENDS: true,
             alias: {
-                EXTENDS: true,
-                specific: path.join(__dirname, './src/client/specific'),
-                services: path.join(__dirname, './src/client/services'),
-                assets: path.join(__dirname, './src/client/assets'),
-                shared: path.join(__dirname, './src/shared'),
-                root: path.join(__dirname, './src/client'),
+                vue$: path.resolve(__dirname, 'node_modules/vue/dist/vue.esm.js'),
+                'vue-router$': path.resolve(__dirname, 'node_modules/vue-router/dist/vue-router.esm.js'),
+                src: path.resolve(__dirname, 'src'),
             },
         },
-        plugins: ['EXTENDS', new HtmlWebpackPlugin()],
+        plugins: [
+            new HtmlWebpackPlugin({
+                filename: path.resolve(__dirname, './src/client/pages/index.ejs'),
+                hash: true,
+                inject: true,
+                chunks: ['bundle'],
+                template: './src/client/pages/index.html',
+            }),
+            new webpack.DefinePlugin({
+                'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development'),
+            }),
+            new webpack.DllReferencePlugin({
+                manifest: require('./dll/vendor.manifest.json'),
+            }),
+            new CopyWebpackPlugin([
+                path.resolve(__dirname, 'dll/vendor.js'),
+            ]),
+            new HtmlWebpackIncludeAssetsPlugin({
+                assets: ['vendor.js'],
+                append: false,
+                hash: true,
+            }),
+        ],
     },
     webpackDevServer: {
         host: 'http://localhost.com',

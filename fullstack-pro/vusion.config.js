@@ -1,45 +1,87 @@
 const path = require('path');
+const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+const HtmlWebpackIncludeAssetsPlugin = require('html-webpack-include-assets-plugin');
 
 module.exports = {
     type: 'app',
-    libraryPath: 'src/client/components/',
-    assetsPath: 'src/client/static/',
+    staticPath: 'src/client/static/',
     docs: false,
-    // docs: process.env.NODE_ENV === 'development',
+    clean: false,   //dev时不删除public文件
+    uglifyJS: true,
     extractCSS: true,
+    sourceMap: false,
+    libraryPath: 'src/client/components/',
     webpack: {
         entry: {
-            EXTENDS: true,
-            /*bundle: './src/client/index.js',*/
-            vendor: 'babel-polyfill',
-            index: './src/client/views/index/index.js',
-            dashboard: './src/client/views/dashboard/index.js',
-            login: './src/client/views/login/index.js',
+            index: ['babel-polyfill', 'whatwg-fetch', './src/client/views/index/index.js'],
+            dashboard: ['babel-polyfill', 'whatwg-fetch', './src/client/views/dashboard/index.js'],
+            login: ['babel-polyfill', 'whatwg-fetch', './src/client/views/login/index.js'],
         },
         output: {
             path: path.resolve(__dirname, 'public'),
             publicPath: '/public/',
-            filename: '[name].js',
-            chunkFilename: 'chunk-[name]-[chunkhash].js',
         },
         resolve: {
-            EXTENDS: true,
             alias: {
-                EXTENDS: true,
-                specific: path.join(__dirname, './src/client/specific'),
-                services: path.join(__dirname, './src/client/services'),
-                assets: path.join(__dirname, './src/client/assets'),
-                shared: path.join(__dirname, './src/shared'),
-                root: path.join(__dirname, './src/client'),
+                vue$: path.resolve(__dirname, 'node_modules/vue/dist/vue.esm.js'),
+                'vue-router$': path.resolve(__dirname, 'node_modules/vue-router/dist/vue-router.esm.js'),
+                src: path.resolve(__dirname, 'src'),
             },
         },
-        plugins: [/*'EXTENDS',*/ /*new HtmlWebpackPlugin(),*/
-            new HtmlWebpackPlugin({ filename: 'index.html', hash: true, template: './src/client/views/index/index.html', chunks: ['vendor', 'index'] }),
-            new HtmlWebpackPlugin({ filename: 'dashboard.html', hash: true, template: './src/client/views/dashboard/index.html', chunks: ['vendor', 'dashboard'] }),
-            new HtmlWebpackPlugin({ filename: 'login.html', hash: true, template: './src/client/views/login/index.html', chunks: ['vendor', 'login'] }),
-        ],},
-
+        module: {
+            rules: [{
+                test: /\.ftl$/i,
+                use: [{
+                    loader: 'underscore-template-loader',
+                    query: {
+                        attributes: ['img:src', 'link:style', 'script:src'],
+                        root: '~',
+                        engine: 'lodash',
+                        withImports: false,
+                        parseDynamicRoutes: false,
+                        parseMacros: false,
+                        interpolate: '<%=([\\s\\S]+?)%>',
+                    },
+                }],
+            }],
+        },
+        plugins: [
+            new HtmlWebpackPlugin({
+                filename: path.resolve(__dirname, './src/client/views/index/index.html'),
+                hash: true,
+                inject: false,
+                chunks: ['index'],
+                template: './src/client/template/index.ftl',
+            }),
+            new HtmlWebpackPlugin({
+                filename: path.resolve(__dirname, './src/client/views/dashboard/index.html'),
+                hash: true,
+                inject: false,
+                chunks: ['dashboard'],
+                template: './src/client/template/dashboard.ftl',
+            }),
+            new HtmlWebpackPlugin({
+                filename: path.resolve(__dirname, './src/client/views/login/index.html'),
+                hash: true,
+                inject: false,
+                chunks: ['login'],
+                template: './src/client/template/login.ftl',
+            }),
+            new webpack.DllReferencePlugin({
+                manifest: require('./dll/vendor.manifest.json'),
+            }),
+            new CopyWebpackPlugin([
+                path.resolve(__dirname, 'dll/vendor.js'),
+            ]),
+            new HtmlWebpackIncludeAssetsPlugin({
+                assets: ['vendor.js'],
+                append: false,
+                hash: true,
+            }),
+        ],
+    },
 
     webpackDevServer: {
         host: 'http://localhost',

@@ -9,9 +9,11 @@
     "start": "vukoa start",
     "pm2": "pm2 kill && pm2 start apps.json && pm2 logs --raw | bunyan -L",
     "lint": "eslint . --fix",
-    "log": "pm2 logs --raw | bunyan -L"
+    "log": "pm2 logs --raw | bunyan -L",
+    "dll": "webpack --config webpack.dll.config.js"
   },
   "dependencies": {
+    "babel-polyfill": "^6.26.0",
     "async-validator": "^1.8.2",
     "axios": "^0.17.1",
     "bluebird": "^3.5.0",
@@ -60,7 +62,8 @@
     "vue": "^2.4.0",
     "vue-router": "^3.0.0",
     "vuex": "^3.0.1",
-    "xlsx": "^0.12.5"
+    "xlsx": "^0.12.5",
+    "whatwg-fetch": "^2.0.3"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
@@ -76,6 +79,9 @@
     "husky": "^0.14.3",
     "nodemon": "^1.8.1",
     "vusion-hooks": "^0.1.1",
-    "webpack": "^3.5.5"
+    "copy-webpack-plugin": "^4.5.1",
+    "html-webpack-include-assets-plugin": "^1.0.4",
+    "underscore-template-loader": "^0.8.0",
+    "webpack": "^3.11.0"
   }
 }

@@ -1,28 +1,85 @@
 const path = require('path');
+const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+const HtmlWebpackIncludeAssetsPlugin = require('html-webpack-include-assets-plugin');
 
 module.exports = {
     version: '>=0.6.0',
     type: 'app',
     extractCSS: true,
     staticPath: './static',
+    docs: false,
+    uglifyJS: true,
+    sourceMap: true,
     libraryPath: './src/components',
     webpack: {
         entry: {
-            vendor: 'babel-polyfill',
-            index: './src/views/index/index.js',
-            dashboard: './src/views/dashboard/index.js',
-            login: './src/views/login/index.js',
+            index: ['babel-polyfill', 'whatwg-fetch', './src/views/index/index.js'],   // babel-polyfill与whatwg-fetch为了兼容IE
+            dashboard: ['babel-polyfill', 'whatwg-fetch', './src/views/dashboard/index.js'],
+            login: ['babel-polyfill', 'whatwg-fetch', './src/views/login/index.js'],
+        },
+        output: {
+            path: path.resolve(__dirname, 'public'),
+            publicPath: '/public/',
         },
         resolve: {
             alias: {
-                '@': path.resolve(__dirname, './src'),
+                vue$: path.resolve(__dirname, 'node_modules/vue/dist/vue.esm.js'),
+                'vue-router$': path.resolve(__dirname, 'node_modules/vue-router/dist/vue-router.esm.js'),
+                src: path.resolve(__dirname, 'src'),
             },
         },
+        module: {
+            rules: [{
+                test: /\.ftl$/i,
+                use: [{
+                    loader: 'underscore-template-loader',
+                    query: {
+                        attributes: ['img:src', 'link:style', 'script:src'],
+                        root: '~',
+                        engine: 'lodash',
+                        withImports: false,
+                        parseDynamicRoutes: false,
+                        parseMacros: false,
+                        interpolate: '<%=([\\s\\S]+?)%>',
+                    },
+                }],
+            }],
+        },
         plugins: [
-            new HtmlWebpackPlugin({ filename: 'index.html', hash: true, template: './src/views/index/index.html', chunks: ['vendor', 'index'] }),
-            new HtmlWebpackPlugin({ filename: 'dashboard.html', hash: true, template: './src/views/dashboard/index.html', chunks: ['vendor', 'dashboard'] }),
-            new HtmlWebpackPlugin({ filename: 'login.html', hash: true, template: './src/views/login/index.html', chunks: ['vendor', 'login'] }),
+            new HtmlWebpackPlugin({
+                filename: path.resolve(__dirname, './src/views/index/index.html'),
+                hash: true,
+                inject: false,
+                chunks: ['index'],
+                template: './template/index.ftl',
+            }),
+            new HtmlWebpackPlugin({
+                filename: path.resolve(__dirname, './src/views/dashboard/index.html'),
+                hash: true,
+                inject: false,
+                chunks: ['dashboard'],
+                template: './template/dashboard.ftl',
+            }),
+            new HtmlWebpackPlugin({
+                filename: path.resolve(__dirname, './src/views/login/index.html'),
+                hash: true,
+                inject: false,
+                chunks: ['login'],
+                template: './template/login.ftl',
+            }),
+            new webpack.DllReferencePlugin({
+                manifest: require('./dll/vendor.manifest.json'),
+            }),
+            new CopyWebpackPlugin([
+                path.resolve(__dirname, 'dll/vendor.js'),
+            ]),
+            new HtmlWebpackIncludeAssetsPlugin({
+                assets: ['vendor.js'],
+                append: false,
+                hash: true,
+            }),
         ],
     },
 };
