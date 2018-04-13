@@ -34,10 +34,11 @@ module.exports = {
                 hash: true,
                 inject: true,
                 chunks: ['bundle'],
-                template: './index.ftl',
+                template: './index.tpl',
             }),
             new webpack.DllReferencePlugin({
                 manifest: require('./dll/vendor.manifest.json'),
+                context: path.resolve(__dirname, 'dll'),
             }),
             new CopyWebpackPlugin([
                 path.resolve(__dirname, 'dll/vendor.js'),

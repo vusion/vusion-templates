@@ -49,21 +49,21 @@ module.exports = {
         },
         plugins: [
             new HtmlWebpackPlugin({
-                filename: path.resolve(__dirname, './src/client/views/index/index.html'),
+                filename: path.resolve(__dirname, './public/index.html'),
                 hash: true,
                 inject: false,
                 chunks: ['index'],
                 template: './src/client/template/index.ftl',
             }),
             new HtmlWebpackPlugin({
-                filename: path.resolve(__dirname, './src/client/views/dashboard/index.html'),
+                filename: path.resolve(__dirname, './public/dashboard.html'),
                 hash: true,
                 inject: false,
                 chunks: ['dashboard'],
                 template: './src/client/template/dashboard.ftl',
             }),
             new HtmlWebpackPlugin({
-                filename: path.resolve(__dirname, './src/client/views/login/index.html'),
+                filename: path.resolve(__dirname, './public/login.html'),
                 hash: true,
                 inject: false,
                 chunks: ['login'],
@@ -71,6 +71,7 @@ module.exports = {
             }),
             new webpack.DllReferencePlugin({
                 manifest: require('./dll/vendor.manifest.json'),
+                context: path.resolve(__dirname, 'dll'),
             }),
             new CopyWebpackPlugin([
                 path.resolve(__dirname, 'dll/vendor.js'),
