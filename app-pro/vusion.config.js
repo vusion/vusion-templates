@@ -1,8 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
-const HtmlWebpackIncludeAssetsPlugin = require('html-webpack-include-assets-plugin');
+const AddAssetHtmlPlugin = require('add-asset-html-webpack-plugin');
 
 module.exports = {
     version: '>=0.6.5',
@@ -11,17 +10,15 @@ module.exports = {
     docs: false,
     uglifyJS: true,
     extractCSS: true,
-    sourceMap: true,
+    sourceMap: false,
     libraryPath: './src/components',
     webpack: {
         entry: {
-            index: ['babel-polyfill', 'whatwg-fetch', './src/views/index/index.js'], // babel-polyfill与whatwg-fetch为了兼容IE
+            // babel-polyfill 与 whatwg-fetch 为了兼容低版本浏览器
+            // 而且在这里必须添加，相当于一个 import，否则 Dll 不知道要引入此包
+            index: ['babel-polyfill', 'whatwg-fetch', './src/views/index/index.js'],
             dashboard: ['babel-polyfill', 'whatwg-fetch', './src/views/dashboard/index.js'],
             login: ['babel-polyfill', 'whatwg-fetch', './src/views/login/index.js'],
-        },
-        output: {
-            path: path.resolve(__dirname, 'public'),
-            publicPath: '/public/',
         },
         resolve: {
             alias: {
@@ -30,56 +27,33 @@ module.exports = {
                 src: path.resolve(__dirname, 'src'),
             },
         },
-        module: {
-            rules: [{
-                test: /\.ftl$/i,
-                use: [{
-                    loader: 'underscore-template-loader',
-                    query: {
-                        attributes: ['img:src', 'link:style', 'script:src'],
-                        root: '~',
-                        engine: 'lodash',
-                        withImports: false,
-                        parseDynamicRoutes: false,
-                        parseMacros: false,
-                        interpolate: '<%=([\\s\\S]+?)%>',
-                    },
-                }],
-            }],
-        },
         plugins: [
             new HtmlWebpackPlugin({
-                filename: path.resolve(__dirname, './src/views/index/index.html'),
+                filename: 'index.html',
                 hash: true,
-                inject: false,
                 chunks: ['index'],
-                template: './template/index.ftl',
+                template: './src/views/index/index.html',
             }),
             new HtmlWebpackPlugin({
-                filename: path.resolve(__dirname, './src/views/dashboard/index.html'),
+                filename: 'dashboard.html',
                 hash: true,
-                inject: false,
                 chunks: ['dashboard'],
-                template: './template/dashboard.ftl',
+                template: './src/views/dashboard/index.html',
             }),
             new HtmlWebpackPlugin({
-                filename: path.resolve(__dirname, './src/views/login/index.html'),
+                filename: 'login.html',
                 hash: true,
-                inject: false,
                 chunks: ['login'],
-                template: './template/login.ftl',
+                template: './src/views/login/index.html',
             }),
             new webpack.DllReferencePlugin({
                 manifest: require('./dll/vendor.manifest.json'),
                 context: path.resolve(__dirname, 'dll'),
             }),
-            new CopyWebpackPlugin([
-                path.resolve(__dirname, 'dll/vendor.js'),
-            ]),
-            new HtmlWebpackIncludeAssetsPlugin({
-                assets: ['vendor.js'],
-                append: false,
+            new AddAssetHtmlPlugin({
+                filepath: path.resolve(__dirname, 'dll/vendor.js'),
                 hash: true,
+                includeSourcemap: false,
             }),
         ],
     },

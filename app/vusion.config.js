@@ -4,7 +4,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const AddAssetHtmlPlugin = require('add-asset-html-webpack-plugin');
 
 module.exports = {
-    version: '>=0.6.0',
+    version: '>=0.6.5',
     type: 'app',
     staticPath: './static',
     docs: false,
@@ -29,7 +29,6 @@ module.exports = {
             new HtmlWebpackPlugin({
                 filename: 'index.html',
                 hash: true,
-                inject: true,
                 chunks: ['bundle'],
                 template: './src/views/index.html',
             }),
