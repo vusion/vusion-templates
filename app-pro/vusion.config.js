@@ -5,17 +5,17 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackIncludeAssetsPlugin = require('html-webpack-include-assets-plugin');
 
 module.exports = {
-    version: '>=0.6.0',
+    version: '>=0.6.5',
     type: 'app',
-    extractCSS: true,
     staticPath: './static',
     docs: false,
     uglifyJS: true,
+    extractCSS: true,
     sourceMap: true,
     libraryPath: './src/components',
     webpack: {
         entry: {
-            index: ['babel-polyfill', 'whatwg-fetch', './src/views/index/index.js'],   // babel-polyfill与whatwg-fetch为了兼容IE
+            index: ['babel-polyfill', 'whatwg-fetch', './src/views/index/index.js'], // babel-polyfill与whatwg-fetch为了兼容IE
             dashboard: ['babel-polyfill', 'whatwg-fetch', './src/views/dashboard/index.js'],
             login: ['babel-polyfill', 'whatwg-fetch', './src/views/login/index.js'],
         },

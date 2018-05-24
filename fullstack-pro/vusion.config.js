@@ -8,7 +8,6 @@ module.exports = {
     type: 'app',
     staticPath: 'src/client/static/',
     docs: false,
-    clean: false,   //dev时不删除public文件
     uglifyJS: true,
     extractCSS: true,
     sourceMap: false,
