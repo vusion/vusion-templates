@@ -8,14 +8,14 @@ module.exports = {
     type: 'app',
     staticPath: './static',
     docs: false,
-    uglifyJS: true,
+    uglifyJS: false,
     extractCSS: true,
     sourceMap: false,
     libraryPath: './src/components',
     webpack: {
         entry: {
             // babel-polyfill 与 whatwg-fetch 为了兼容低版本浏览器
-            // 而且在这里必须添加，相当于一个 import，否则 Dll 不知道要引入此包
+            // 而且在这里必须添加，相当于一个 import，否则 dll 不知道要引入此包
             bundle: ['babel-polyfill', 'whatwg-fetch', './src/views/index.js'],
         },
         resolve: {
@@ -32,14 +32,20 @@ module.exports = {
                 chunks: ['bundle'],
                 template: './src/views/index.html',
             }),
+            // 关联生成的 dll 信息文件
             new webpack.DllReferencePlugin({
                 manifest: require('./dll/vendor.manifest.json'),
                 context: path.resolve(__dirname, 'dll'),
             }),
+            // 将 vendor.js 带上 hash 并注入到 html 中
             new AddAssetHtmlPlugin({
                 filepath: path.resolve(__dirname, 'dll/vendor.js'),
                 hash: true,
                 includeSourcemap: false,
+            }),
+            // 将子 chunk 的公共代码打包进父 chunk 中
+            new webpack.optimize.CommonsChunkPlugin({
+                children: true,
             }),
         ],
     },
