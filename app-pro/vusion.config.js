@@ -12,6 +12,7 @@ module.exports = {
     extractCSS: true,
     sourceMap: false,
     libraryPath: './src/components',
+    // forceShaking: 'proto-ui.vusion',
     webpack: {
         entry: {
             // babel-polyfill 与 whatwg-fetch 为了兼容低版本浏览器
@@ -60,10 +61,12 @@ module.exports = {
             // 将多个 entry chunk 的公共代码打包成公共 chunk
             new webpack.optimize.CommonsChunkPlugin({
                 name: 'commons',
+                minChunks: 3,
             }),
             // 将子 chunk 的公共代码打包进父 chunk 中
             new webpack.optimize.CommonsChunkPlugin({
                 children: true,
+                minChunks: 3,
             }),
         ],
     },
