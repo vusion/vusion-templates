@@ -1,12 +1,11 @@
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
-const HtmlWebpackIncludeAssetsPlugin = require('html-webpack-include-assets-plugin');
+const AddAssetHtmlPlugin = require('add-asset-html-webpack-plugin');
 
 module.exports = {
     type: 'app',
-    staticPath: 'src/client/static/',
+    staticPath: 'src/client/assets/',
     docs: false,
     uglifyJS: true,
     extractCSS: true,
@@ -51,34 +50,37 @@ module.exports = {
                 filename: path.resolve(__dirname, './public/index.html'),
                 hash: true,
                 inject: false,
-                chunks: ['index'],
+                chunks: ['commons', 'index'],
                 template: './src/client/template/index.ftl',
             }),
             new HtmlWebpackPlugin({
                 filename: path.resolve(__dirname, './public/dashboard.html'),
                 hash: true,
                 inject: false,
-                chunks: ['dashboard'],
+                chunks: ['commons', 'dashboard'],
                 template: './src/client/template/dashboard.ftl',
             }),
             new HtmlWebpackPlugin({
                 filename: path.resolve(__dirname, './public/login.html'),
                 hash: true,
                 inject: false,
-                chunks: ['login'],
+                chunks: ['commons', 'login'],
                 template: './src/client/template/login.ftl',
             }),
             new webpack.DllReferencePlugin({
                 manifest: require('./dll/vendor.manifest.json'),
                 context: path.resolve(__dirname, 'dll'),
             }),
-            new CopyWebpackPlugin([
-                path.resolve(__dirname, 'dll/vendor.js'),
-            ]),
-            new HtmlWebpackIncludeAssetsPlugin({
-                assets: ['vendor.js'],
-                append: false,
+            new AddAssetHtmlPlugin({
+                filepath: path.resolve(__dirname, 'dll/vendor.js'),
                 hash: true,
+                includeSourcemap: false,
+            }),
+            new webpack.optimize.CommonsChunkPlugin({
+                name: 'commons',
+            }),
+            new webpack.optimize.CommonsChunkPlugin({
+                children: true,
             }),
         ],
     },

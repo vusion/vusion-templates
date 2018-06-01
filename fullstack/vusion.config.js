@@ -1,8 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
-const HtmlWebpackIncludeAssetsPlugin = require('html-webpack-include-assets-plugin');
+const AddAssetHtmlPlugin = require('add-asset-html-webpack-plugin');
 
 module.exports = {
     type: 'app',
@@ -42,13 +41,13 @@ module.exports = {
                 manifest: require('./dll/vendor.manifest.json'),
                 context: path.resolve(__dirname, 'dll'),
             }),
-            new CopyWebpackPlugin([
-                path.resolve(__dirname, 'dll/vendor.js'),
-            ]),
-            new HtmlWebpackIncludeAssetsPlugin({
-                assets: ['vendor.js'],
-                append: false,
+            new AddAssetHtmlPlugin({
+                filepath: path.resolve(__dirname, 'dll/vendor.js'),
                 hash: true,
+                includeSourcemap: false,
+            }),
+            new webpack.optimize.CommonsChunkPlugin({
+                children: true,
             }),
         ],
     },
