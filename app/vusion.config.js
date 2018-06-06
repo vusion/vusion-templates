@@ -36,7 +36,6 @@ module.exports = {
             // 关联生成的 dll 信息文件
             new webpack.DllReferencePlugin({
                 manifest: require('./dll/vendor.manifest.json'),
-                context: path.resolve(__dirname, 'dll'),
             }),
             // 将 vendor.js 带上 hash 并注入到 html 中
             new AddAssetHtmlPlugin({

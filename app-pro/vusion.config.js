@@ -32,25 +32,24 @@ module.exports = {
             new HtmlWebpackPlugin({
                 filename: 'index.html',
                 hash: true,
-                chunks: ['commons', 'index'],
+                chunks: ['common', 'index'],
                 template: './src/views/index/index.html',
             }),
             new HtmlWebpackPlugin({
                 filename: 'dashboard.html',
                 hash: true,
-                chunks: ['commons', 'dashboard'],
+                chunks: ['common', 'dashboard'],
                 template: './src/views/dashboard/index.html',
             }),
             new HtmlWebpackPlugin({
                 filename: 'login.html',
                 hash: true,
-                chunks: ['commons', 'login'],
+                chunks: ['common', 'login'],
                 template: './src/views/login/index.html',
             }),
             // 关联生成的 dll 信息文件
             new webpack.DllReferencePlugin({
                 manifest: require('./dll/vendor.manifest.json'),
-                context: path.resolve(__dirname, 'dll'),
             }),
             // 将 vendor.js 带上 hash 并注入到 html 中
             new AddAssetHtmlPlugin({
@@ -60,7 +59,7 @@ module.exports = {
             }),
             // 将多个 entry chunk 的公共代码打包成公共 chunk
             new webpack.optimize.CommonsChunkPlugin({
-                name: 'commons',
+                name: 'common',
                 minChunks: 3,
             }),
             // 将子 chunk 的公共代码打包进父 chunk 中
