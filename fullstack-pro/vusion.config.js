@@ -1,14 +1,13 @@
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
-const HtmlWebpackIncludeAssetsPlugin = require('html-webpack-include-assets-plugin');
+const AddAssetHtmlPlugin = require('add-asset-html-webpack-plugin');
 
 module.exports = {
+    version: '>=0.7.4',
     type: 'app',
     staticPath: 'src/client/static/',
     docs: false,
-    uglifyJS: true,
     extractCSS: true,
     sourceMap: false,
     libraryPath: 'src/client/components/',
@@ -68,17 +67,20 @@ module.exports = {
                 chunks: ['login'],
                 template: './src/client/template/login.ftl',
             }),
+            // 关联生成的 dll 信息文件
             new webpack.DllReferencePlugin({
                 manifest: require('./dll/vendor.manifest.json'),
-                context: path.resolve(__dirname, 'dll'),
             }),
-            new CopyWebpackPlugin([
-                path.resolve(__dirname, 'dll/vendor.js'),
-            ]),
-            new HtmlWebpackIncludeAssetsPlugin({
-                assets: ['vendor.js'],
-                append: false,
+            // 将 vendor.js 带上 hash 并注入到 html 中
+            new AddAssetHtmlPlugin({
+                filepath: path.resolve(__dirname, 'dll/vendor.js'),
                 hash: true,
+                includeSourcemap: false,
+            }),
+            // 将子 chunk 的公共代码打包进父 chunk 中
+            new webpack.optimize.CommonsChunkPlugin({
+                children: true,
+                minChunks: 3,
             }),
         ],
     },

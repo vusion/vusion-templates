@@ -4,11 +4,10 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const AddAssetHtmlPlugin = require('add-asset-html-webpack-plugin');
 
 module.exports = {
-    version: '>=0.6.5',
+    version: '>=0.7.4',
     type: 'app',
     staticPath: './static',
     docs: false,
-    uglifyJS: true,
     extractCSS: true,
     sourceMap: false,
     libraryPath: './src/components',
