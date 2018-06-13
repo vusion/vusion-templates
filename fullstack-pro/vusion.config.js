@@ -50,21 +50,21 @@ module.exports = {
                 filename: path.resolve(__dirname, './public/index.html'),
                 hash: true,
                 inject: false,
-                chunks: ['index'],
+                chunks: ['common', 'index'],
                 template: './src/client/template/index.ftl',
             }),
             new HtmlWebpackPlugin({
                 filename: path.resolve(__dirname, './public/dashboard.html'),
                 hash: true,
                 inject: false,
-                chunks: ['dashboard'],
+                chunks: ['common', 'dashboard'],
                 template: './src/client/template/dashboard.ftl',
             }),
             new HtmlWebpackPlugin({
                 filename: path.resolve(__dirname, './public/login.html'),
                 hash: true,
                 inject: false,
-                chunks: ['login'],
+                chunks: ['common', 'login'],
                 template: './src/client/template/login.ftl',
             }),
             // 关联生成的 dll 信息文件
@@ -76,6 +76,11 @@ module.exports = {
                 filepath: path.resolve(__dirname, 'dll/vendor.js'),
                 hash: true,
                 includeSourcemap: false,
+            }),
+            // 将多个 entry chunk 的公共代码打包成公共 chunk
+            new webpack.optimize.CommonsChunkPlugin({
+                name: 'common',
+                minChunks: 3,
             }),
             // 将子 chunk 的公共代码打包进父 chunk 中
             new webpack.optimize.CommonsChunkPlugin({
