@@ -89,7 +89,6 @@ module.exports = {
             }),
         ],
     },
-
     webpackDevServer: {
         host: 'http://localhost',
         // proxy: {
