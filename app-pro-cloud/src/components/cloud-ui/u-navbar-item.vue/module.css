@@ -1,0 +1,10 @@
+@import 'cloud-ui.vusion/src/u-navbar-item.vue/module.css';
+
+.root {
+    height: 68px;
+    line-height: 68px;
+}
+
+.root[inverse] {
+    color: #666;
+}

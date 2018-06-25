@@ -1,0 +1,6 @@
+.root {
+    display: inline-block;
+    width: 160px;
+    height: 68px;
+    background: #343f4f url('./logo.svg') 18px 17px no-repeat;
+}
