@@ -16,7 +16,7 @@
     "bluebird": "^3.5.0",
     "bookshelf": "^0.10.0",
     "chalk": "^2.0.1",
-    "cloud-ui.vusion": "~0.2.18",
+    "cloud-ui.vusion": "~0.3.17",
     "commander": "^2.11.0",
     "core-js": "^2.4.1",
     "debug": "^2.6.3",
@@ -45,7 +45,7 @@
     "request-promise": "^4.2.1",
     "vue": "^2.4.0",
     "vue-router": "^3.0.0",
-    "vusion-utils": "^0.1.0",
+    "vusion-utils": "^0.2.2",
     "whatwg-fetch": "^2.0.3"
   },
   "devDependencies": {
